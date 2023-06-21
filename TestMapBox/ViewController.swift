@@ -20,14 +20,7 @@ enum AnnotationPointViewPinType: String {
 
 class ViewController: UIViewController, AnnotationInteractionDelegate {
     func annotationManager(_ manager: MapboxMaps.AnnotationManager, didDetectTappedAnnotations annotations: [MapboxMaps.Annotation]) {
-        let listOfAnnotation = annotations
-        for pin in listOfAnnotation {
-            if pin.id == AnnotationPointViewPinType.userLocation.rawValue {
-                print("User location Tapped")
-            } else{
-                print("Shop location Tapped")
-            }
-        }
+        let selectedAnnotation = annotations[0]
     }
     
     
@@ -96,6 +89,7 @@ class ViewController: UIViewController, AnnotationInteractionDelegate {
     func prepareStyle() {
         pointAnnotationManager = mapView.annotations.makePointAnnotationManager()
         pointAnnotationManager?.delegate = self
+        annotationArray = []
         for location in 0 ..< locationArray.count {
             if location == 0 {
                 annotationArray?.append(generatePointAnnotationPins(lat: locationArray[location].latitude, long: locationArray[location].longitude, pinType: .userLocation))
@@ -105,15 +99,6 @@ class ViewController: UIViewController, AnnotationInteractionDelegate {
         }
         pointAnnotationManager?.annotations = annotationArray ?? []
         
-        let options = ViewAnnotationOptions(
-            allowOverlap: true, visible: true, anchor: .center
-        )
-        
-        let annotView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        annotView.backgroundColor = .red
-        try? mapView.viewAnnotations.add(annotView, options: options)
-//        try? mapView.addanno
-//        mapView.addann
     }
     
 //    func generateAnnotationView(pinType: AnnotationPointViewPinType) -> UIView {
